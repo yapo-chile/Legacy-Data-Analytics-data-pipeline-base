@@ -1,11 +1,8 @@
-## Data Pulse
+## Data pipeline base
 
-This repository store the pipelines that consume data from Pulse.
+This repository is a template for develop pipelines in python.
 
-### Metrics
+### How to use
 
-- Bounce Rate
-
-### Data quality
-
-- Monitoring Data
+- Rename [project-name] folder for you develop name. For example [bounce-rate].
+- Rename 
