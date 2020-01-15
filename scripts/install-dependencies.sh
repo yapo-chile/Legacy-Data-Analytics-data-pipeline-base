@@ -12,7 +12,7 @@ function GET_BUILD_MODULE(){
     else
         GIT_CURRENT_BRANCH="${BUILD_BRANCH}"
         echo "git checkout ${GIT_CURRENT_BRANCH}"
-        git checkout ${GIT_CURRENT_BRANCH}
+        git checkout "${GIT_CURRENT_BRANCH}"
     fi
     GIT_LAST_COMMIT=$(git log -p --name-only --oneline | head -1 | awk '{print $1}')
     GIT_LAST_MERGE=$(git log -p --name-only --oneline | grep "Merge" | head -1 | awk '{print $1}')
