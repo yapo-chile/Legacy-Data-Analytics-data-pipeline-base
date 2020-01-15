@@ -2,6 +2,7 @@
 # utf-8
 import sys
 import logging
+import pandas as pd
 from infraestructure.athena import Athena
 from infraestructure.conf import getConf
 from infraestructure.psql import Database
@@ -13,18 +14,18 @@ def source_data_pulse(params: ReadParams,
                       config: getConf):
     athena = Athena(conf=CONFIG.athenaConf)
     query = Query()
-    data_athena = athena.get_data(QUERY.query_base_athena(params))
+    data_athena = athena.get_data(query.query_base_athena(params))
     athena.close_connection()
     return data_athena
 
 def source_data_dwh(params: ReadParams,
-                      config: getConf):
+                    config: getConf):
     query = Query()
     db_source = Database(conf=config.db)
     data_dwh = db_source.select_to_dict(query \
                                         .query_base_postgresql(params))
     db_source.close_connection()
-    return data_past, data_current
+    return data_dwh
 
 def destiny_data(params: ReadParams,
                  config: getConf,
@@ -33,8 +34,8 @@ def destiny_data(params: ReadParams,
     query = Query()
     DB_WRITE = Database(conf=config.db)
     DB_WRITE.execute_command(query.delete_base(params))
-    DB_WRITE.insert_current(data_athena)
-    DB_WRITE.insert_past(data_dwh)
+    DB_WRITE.insert_data(data_athena)
+    DB_WRITE.insert_data(data_dwh)
     DB_WRITE.close_connection()
 
 if __name__ == '__main__':
