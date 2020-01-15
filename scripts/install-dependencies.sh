@@ -3,15 +3,13 @@
 MODULE_COMPILE=""
 
 function GET_BUILD_MODULE(){
-    echo "git fetch"
-    git fetch
     echo "git branch"
-    git branch
+    git branch -r
     if [ -z "${BUILD_BRANCH}" ]
     then
         GIT_CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
     else
-        GIT_CURRENT_BRANCH="${BUILD_BRANCH}"
+        GIT_CURRENT_BRANCH="origin/${BUILD_BRANCH}"
         echo "git checkout ${GIT_CURRENT_BRANCH}"
         git checkout ${GIT_CURRENT_BRANCH}
     fi

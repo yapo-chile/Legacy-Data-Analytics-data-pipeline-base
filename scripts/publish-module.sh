@@ -7,7 +7,7 @@ function GET_BUILD_MODULE(){
     then
         GIT_CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
     else
-        GIT_CURRENT_BRANCH="${BUILD_BRANCH}"
+        GIT_CURRENT_BRANCH="origin/${BUILD_BRANCH}"
         echo "git checkout ${GIT_CURRENT_BRANCH}"
         git checkout ${GIT_CURRENT_BRANCH}
     fi
