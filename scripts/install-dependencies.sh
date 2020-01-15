@@ -3,8 +3,8 @@
 MODULE_COMPILE=""
 
 function GET_BUILD_MODULE(){
-    echo "git fetch"
-    git fetch
+    echo "git branch -a"
+    git branch -a
     echo "TESTING_VALUE ${TESTING_VALUE}"
     if [ -z "${BUILD_BRANCH}" ]
     then
