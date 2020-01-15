@@ -32,7 +32,7 @@ docker run -v /local-path/secrets/pulse:/app/pulse-secret \
            containers.mpi-internal.com/yapo/data-base-pipeline:[TAG]
 ```
 
-### Run test
+### Run syntax check
 ```
 make -C project-name check-style
 ```
