@@ -3,8 +3,8 @@
 MODULE_COMPILE=""
 
 function GET_BUILD_MODULE(){
-    echo "git branch"
-    git branch -r
+    echo "git fetch"
+    git fetch
     if [ -z "${BUILD_BRANCH}" ]
     then
         GIT_CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
