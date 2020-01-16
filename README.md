@@ -32,7 +32,7 @@ docker run -v /local-path/secrets/pulse:/app/pulse-secret \
            containers.mpi-internal.com/yapo/data-base-pipeline:[TAG]
 ```
 
-### Run test
+### Run syntax check
 ```
 make -C project-name check-style
 ```
@@ -44,7 +44,7 @@ make -C project-name check-style
 
 | Repository    | Prefix docker image |
 | ------------- |-------------|
-| [data-content](https://github.mpi-internal.com/Yapo/data-content)      | content-**pipelineName** |
-| [data-pulse](https://github.mpi-internal.com/Yapo/data-pulse)      | dp-**pipelineName**      |
-| [data-user-behavior](https://github.mpi-internal.com/Yapo/data-user-behavior) | ub-**pipelineName**      |
+| [data-content](https://github.mpi-internal.com/Yapo/data-content)      | data-content-**pipelineName** |
+| [data-pulse](https://github.mpi-internal.com/Yapo/data-pulse)      | data-pulse-**pipelineName**      |
+| [data-user-behavior](https://github.mpi-internal.com/Yapo/data-user-behavior) | data-user-behavior-**pipelineName**      |
 

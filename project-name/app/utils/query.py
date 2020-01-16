@@ -34,6 +34,7 @@ class Query:
         """
         command = """
                     delete from dm_analysis.db_version where 
-                    timedate::date = '""" + params.get_date_from() + """'::date """
+                    timedate::date = 
+                    '""" + params.get_date_from() + """'::date """
 
         return command
