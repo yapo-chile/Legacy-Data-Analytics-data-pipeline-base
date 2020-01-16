@@ -10,7 +10,7 @@ from utils.query import Query
 from utils.read_params import ReadParams
 from utils.time_execution import TimeExecution
 
-# Query data to Pulse bucket
+# Query data from Pulse bucket
 def source_data_pulse(params: ReadParams,
                       config: getConf):
     athena = Athena(conf=CONFIG.athenaConf)
@@ -19,7 +19,7 @@ def source_data_pulse(params: ReadParams,
     athena.close_connection()
     return data_athena
 
-# Query data to data warehouse
+# Query data from data warehouse
 def source_data_dwh(params: ReadParams,
                     config: getConf):
     query = Query()
