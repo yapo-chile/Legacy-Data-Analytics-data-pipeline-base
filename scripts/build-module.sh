@@ -17,7 +17,7 @@ function GET_BUILD_MODULE(){
 }
 
 function BUILD_MODULE(){
-    if [ -z "${MODULE_COMPILE}" ] || [ "${MODULE_COMPILE}" == "scripts" ] || [ "${BUILD_BRANCH}" == "master" ];
+    if [ -z "${MODULE_COMPILE}" ] || [ "${MODULE_COMPILE}" == "scripts" ];
     then
         echo "No changes detected."
 
