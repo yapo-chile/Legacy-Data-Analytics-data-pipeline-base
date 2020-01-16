@@ -10,7 +10,7 @@ function GET_BUILD_MODULE(){
         echo "Compare between Merge pull request"
         GIT_LAST_MERGE=$(git log -p --name-only --oneline | grep "Merge pull request #" | head -2 | tail -1 | awk '{print $1}')
     fi
-    echo "GIT_CURRENT_BRANCH: ${GIT_CURRENT_BRANCH}"
+    echo "GIT_CURRENT_BRANCH: ${BUILD_BRANCH}"
     echo "GIT_LAST_COMMIT: ${GIT_LAST_COMMIT}"
     echo "GIT_LAST_MERGE: ${GIT_LAST_MERGE}"
     MODULE_COMPILE=$(git log -p --name-only --oneline ${GIT_LAST_MERGE}..${GIT_LAST_COMMIT} | grep "/" | grep  -v " " | grep -v ".md" | awk '{split($0, val, "/"); print val[1]}' | sort | uniq -c | awk '{print $2}')
