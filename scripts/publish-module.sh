@@ -24,6 +24,8 @@ function PUBLISH_MODULE(){
             if [ "${MODULE}" != "scripts" ]; then
                 echo "make -C ${MODULE} docker-publish"
                 make -C ${MODULE} docker-publish
+                echo "make -C ${MODULE} rundeck-deploy"
+                make -C ${MODULE} rundeck-deploy
             fi
             let INCREMENT=${INCREMENT}+1
         done
