@@ -13,13 +13,11 @@ function GET_BUILD_MODULE(){
     echo "GIT_CURRENT_BRANCH: ${GIT_CURRENT_BRANCH}"
     echo "GIT_LAST_COMMIT: ${GIT_LAST_COMMIT}"
     echo "GIT_LAST_MERGE: ${GIT_LAST_MERGE}"
-    #git log -p --name-only --oneline | head -80
     MODULE_COMPILE=$(git log -p --name-only --oneline ${GIT_LAST_MERGE}..${GIT_LAST_COMMIT} | grep "/" | grep  -v " " | grep -v ".md" | awk '{split($0, val, "/"); print val[1]}' | sort | uniq -c | awk '{print $2}')
 }
 
 function INSTALL_DEPENDENCIES(){
-    echo "${MODULE_COMPILE}" 
-    if [ -z "${MODULE_COMPILE}" ];
+    if [ -z "${MODULE_COMPILE}" ] || [ "${MODULE_COMPILE}" == "scripts" ];
     then
         echo "No changes detected."
 
