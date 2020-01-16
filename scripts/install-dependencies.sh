@@ -17,7 +17,7 @@ function GET_BUILD_MODULE(){
 }
 
 function INSTALL_DEPENDENCIES(){
-    if [ -z "${MODULE_COMPILE}" ] || [ "${MODULE_COMPILE}" == "scripts" ];
+    if [ -z "${MODULE_COMPILE}" ] || [ "${MODULE_COMPILE}" == "scripts" ] || [ "${BUILD_BRANCH}" == "master" ];
     then
         echo "No changes detected."
 

@@ -17,7 +17,7 @@ function GET_BUILD_MODULE(){
 }
 
 function PUBLISH_MODULE(){
-    if [ -z "${MODULE_COMPILE}" ] || [ "${MODULE_COMPILE}" == "scripts" ];
+    if [ -z "${MODULE_COMPILE}" ] || [ "${MODULE_COMPILE}" == "scripts" ] || [ "${BUILD_BRANCH}" == "master" ];
     then
         echo "No changes detected."
     else
