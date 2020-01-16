@@ -10,6 +10,7 @@ from utils.query import Query
 from utils.read_params import ReadParams
 from utils.time_execution import TimeExecution
 
+# Query data to Pulse bucket
 def source_data_pulse(params: ReadParams,
                       config: getConf):
     athena = Athena(conf=CONFIG.athenaConf)
@@ -18,6 +19,7 @@ def source_data_pulse(params: ReadParams,
     athena.close_connection()
     return data_athena
 
+# Query data to data warehouse
 def source_data_dwh(params: ReadParams,
                     config: getConf):
     query = Query()
@@ -27,10 +29,11 @@ def source_data_dwh(params: ReadParams,
     db_source.close_connection()
     return data_dwh
 
-def destiny_data(params: ReadParams,
-                 config: getConf,
-                 data_athena: pd.DataFrame,
-                 data_dwh: pd.DataFrame) -> None:
+# Write data to data warehouse
+def write_data_dwh(params: ReadParams,
+                   config: getConf,
+                   data_athena: pd.DataFrame,
+                   data_dwh: pd.DataFrame) -> None:
     query = Query()
     DB_WRITE = Database(conf=config.db)
     DB_WRITE.execute_command(query.delete_base(params))
@@ -49,6 +52,6 @@ if __name__ == '__main__':
     PARAMS = ReadParams(sys.argv)
     DATA_ATHENA = source_data_pulse(PARAMS, CONFIG)
     DATA_DWH = source_data_dwh(PARAMS, CONFIG)
-    destiny_data(PARAMS, CONFIG, DATA_ATHENA, DATA_DWH)
+    write_data_dwh(PARAMS, CONFIG, DATA_ATHENA, DATA_DWH)
     TIME.get_time()
     LOGGER.info('Process ended successfully.')
