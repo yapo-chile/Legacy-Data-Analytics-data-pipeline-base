@@ -11,18 +11,23 @@ function GET_BUILD_MODULE(){
     MODULE_COMPILE=$(git log -p --name-only --oneline ${GIT_LAST_MERGE}..${GIT_LAST_COMMIT} | grep "/" | grep  -v " " | grep -v ".md" | awk '{split($0, val, "/"); print val[1]}' | sort | uniq -c | awk '{print $2}')
 }
 
-function PUBLISH_MODULE(){   
-    COUNT_MODULES=$(echo "${MODULE_COMPILE}" | wc -l)
-    let INCREMENT=1
-    while [ ${INCREMENT} -le ${COUNT_MODULES} ];
-    do
-        MODULE=$(echo "${MODULE_COMPILE}" | head -${INCREMENT} | tail -1)
-        if [ "${MODULE}" != "scripts" ]; then
-            echo "make -C ${MODULE} docker-publish"
-            make -C ${MODULE} docker-publish
-        fi
-        let INCREMENT=${INCREMENT}+1
-    done
+function PUBLISH_MODULE(){
+    if [ -z "${MODULE_COMPILE}" ];
+    then
+        echo "No changes detected."
+    else
+        COUNT_MODULES=$(echo "${MODULE_COMPILE}" | wc -l)
+        let INCREMENT=1
+        while [ ${INCREMENT} -le ${COUNT_MODULES} ];
+        do
+            MODULE=$(echo "${MODULE_COMPILE}" | head -${INCREMENT} | tail -1)
+            if [ "${MODULE}" != "scripts" ]; then
+                echo "make -C ${MODULE} docker-publish"
+                make -C ${MODULE} docker-publish
+            fi
+            let INCREMENT=${INCREMENT}+1
+        done
+    fi
 }
 
 GET_BUILD_MODULE

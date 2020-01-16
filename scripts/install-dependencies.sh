@@ -12,17 +12,23 @@ function GET_BUILD_MODULE(){
 }
 
 function INSTALL_DEPENDENCIES(){
-    COUNT_MODULES=$(echo "${MODULE_COMPILE}" | wc -l)
-    let INCREMENT=1
-    while [ ${INCREMENT} -le ${COUNT_MODULES} ];
-    do
-        MODULE=$(echo "${MODULE_COMPILE}" | head -${INCREMENT} | tail -1)
-        if [ "${MODULE}" != "scripts" ]; then
-            echo "make -C ${MODULE} install"
-            make -C "${MODULE}" install
-        fi
-        let INCREMENT=${INCREMENT}+1
-    done
+    if [ -z "${MODULE_COMPILE}" ];
+    then
+        echo "No changes detected."
+
+    else
+        COUNT_MODULES=$(echo "${MODULE_COMPILE}" | wc -l)
+        let INCREMENT=1
+        while [ ${INCREMENT} -le ${COUNT_MODULES} ];
+        do
+            MODULE=$(echo "${MODULE_COMPILE}" | head -${INCREMENT} | tail -1)
+            if [ "${MODULE}" != "scripts" ]; then
+                echo "make -C ${MODULE} install"
+                make -C "${MODULE}" install
+            fi
+            let INCREMENT=${INCREMENT}+1
+        done
+    fi
 }
 
 GET_BUILD_MODULE
