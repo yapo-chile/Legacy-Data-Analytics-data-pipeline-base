@@ -24,37 +24,53 @@ class ReadParams:
         """
         Method that get date_from attribute
         """
-        return self.date_from
+        return self.date_from.strftime('%Y-%m-%d')
 
     def get_date_to(self) -> str:
         """
         Method that get date_to attribute
         """
-        return self.date_to
+        return self.date_to.strftime('%Y-%m-%d')
 
     def get_current_year(self) -> str:
         """
         Method that get current_year attribute
         """
-        return self.date_from[0:4]
+        return str(self.date_from.year)
 
     def get_current_month(self) -> str:
         """
         Method that get current_month attribute
         """
-        return self.date_from[5:7]
+        if self.date_from.month < 10:
+            return '0' + str(self.date_from.month)
+        return str(self.date_from.month)
 
     def get_current_day(self) -> str:
         """
         Method that get current_day attribute
         """
-        return self.date_from[8:10]
+        if self.date_from.day < 10:
+            return '0' + str(self.date_from.day)
+        return str(self.date_from.day)
 
     def get_last_year(self) -> str:
         """
         Method that get last_year attribute
         """
-        return str(int(self.date_from[0:4]) - 1)
+        return str(int(self.date_from.year) - 1)
+
+    def get_last_year_week(self, delta: int) -> str:
+        """
+        Method that get last_year_week attribute
+        """
+        return str((self.\
+                    date_from + timedelta(days=delta)).strftime('%Y-%m-%d'))
+
+    def get_inital_day(self, delta) -> datetime:
+        tmp_date = datetime.datetime(self.date_from.year - 1, 1, 1)
+        return str((tmp_date + timedelta(days=delta)).strftime('%Y-%m-%d'))
+
 
     def get_master(self) -> str:
         """
@@ -62,13 +78,13 @@ class ReadParams:
         """
         return self.master
 
-    def set_date_from(self, date_from: str):
+    def set_date_from(self, date_from: datetime):
         """
         Method that set date_from attribute
         """
         self.date_from = date_from
 
-    def set_date_to(self, date_to: str):
+    def set_date_to(self, date_to: datetime):
         """
         Method that set date_to attribute
         """
@@ -107,10 +123,10 @@ class ReadParams:
         current_date = datetime.datetime.now()
         if self.date_from is None:
             temp_date = current_date + timedelta(days=-1)
-            self.date_from = temp_date.strftime('%Y-%m-%d')
+            self.date_from = temp_date
         if self.date_to is None:
             temp_date = current_date + timedelta(days=-1)
-            self.date_to = temp_date.strftime('%Y-%m-%d')
+            self.date_to = temp_date
         if self.master is None:
             self.master = 'local'
 

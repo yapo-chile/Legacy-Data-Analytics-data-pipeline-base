@@ -10,11 +10,8 @@ set -e
 echoHeader "Running Checkstyle Tests"
 
 if [[ -n "$TRAVIS" ]]; then
-    
     mkdir -p ${REPORT_ARTIFACTS}
-
     CHECKSTYLE_FILE=${REPORT_ARTIFACTS}/checkstyle-report.xml
-
     pylint -f json -r n app/ | ./scripts/commands/pylint-to-checkstyle > ${CHECKSTYLE_FILE}
 else
     pylint -r n app/
