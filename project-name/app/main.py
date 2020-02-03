@@ -55,4 +55,3 @@ if __name__ == '__main__':
     write_data_dwh(PARAMS, CONFIG, DATA_ATHENA, DATA_DWH)
     TIME.get_time()
     LOGGER.info('Process ended successfully.')
-    LOGGER.info('Base project.')
