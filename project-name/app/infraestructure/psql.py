@@ -8,7 +8,7 @@ class Database:
     """
     Class that allow do operations with postgresql database.
     """
-    def __init__(self, conf):
+    def __init__(self, conf) -> None:
         self.log = logging.getLogger('psql')
         date_format = """%(asctime)s,%(msecs)d %(levelname)-2s """
         info_format = """[%(filename)s:%(lineno)d] %(message)s"""
