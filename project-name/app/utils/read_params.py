@@ -7,7 +7,7 @@ class ReadParams:
     """
     Class that allow read params by sys.
     """
-    def __init__(self, str_parse_params):
+    def __init__(self, str_parse_params) -> None:
         self.str_parse_params = str_parse_params
         self.date_from = None
         self.date_to = None
