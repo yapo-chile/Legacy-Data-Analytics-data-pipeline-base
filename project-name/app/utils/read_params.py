@@ -1,4 +1,5 @@
 import datetime
+from datetime import datetime as date_str
 from datetime import timedelta
 import logging
 
@@ -108,9 +109,9 @@ class ReadParams:
         Param  [ value ] is value that will be assign to attribute.
         """
         if key == '-date_from':
-            self.date_from = value
+            self.date_from = date_str.strptime(value, '%Y-%m-%d').date()
         elif key == '-date_to':
-            self.date_to = value
+            self.date_to = date_str.strptime(value, '%Y-%m-%d').date()
         elif key == '-master':
             self.master = value
 
