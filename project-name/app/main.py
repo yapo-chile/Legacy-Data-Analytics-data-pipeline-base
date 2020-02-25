@@ -14,18 +14,18 @@ from utils.time_execution import TimeExecution
 def source_data_pulse(params: ReadParams,
                       config: getConf):
     athena = Athena(conf=CONFIG.athenaConf)
-    query = Query()
-    data_athena = athena.get_data(query.query_base_athena(params))
+    query = Query(config, params)
+    data_athena = athena.get_data(query.query_base_athena())
     athena.close_connection()
     return data_athena
 
 # Query data from data warehouse
 def source_data_dwh(params: ReadParams,
                     config: getConf):
-    query = Query()
+    query = Query(config, params)
     db_source = Database(conf=config.db)
     data_dwh = db_source.select_to_dict(query \
-                                        .query_base_postgresql(params))
+                                        .query_base_postgresql())
     db_source.close_connection()
     return data_dwh
 
@@ -34,9 +34,9 @@ def write_data_dwh(params: ReadParams,
                    config: getConf,
                    data_athena: pd.DataFrame,
                    data_dwh: pd.DataFrame) -> None:
-    query = Query()
+    query = Query(config, params)
     DB_WRITE = Database(conf=config.db)
-    DB_WRITE.execute_command(query.delete_base(params))
+    DB_WRITE.execute_command(query.delete_base())
     DB_WRITE.insert_data(data_athena)
     DB_WRITE.insert_data(data_dwh)
     DB_WRITE.close_connection()
