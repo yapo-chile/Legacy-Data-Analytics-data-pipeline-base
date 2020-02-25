@@ -1,3 +1,4 @@
+from infraestructure.conf import getConf
 from utils.read_params import ReadParams
 
 
@@ -5,7 +6,13 @@ class Query:
     """
     Class that store all querys
     """
-    def query_base_postgresql(self, params: ReadParams) -> str:
+    def __init__(self,
+                 conf: getConf,
+                 params: ReadParams) -> None:
+        self.params = params
+        self.conf = conf
+
+    def query_base_postgresql(self) -> str:
         """
         Method return str with query
         """
@@ -16,7 +23,7 @@ class Query:
             """
         return query
 
-    def query_base_athena(self, params: ReadParams) -> str:
+    def query_base_athena(self) -> str:
         """
         Method return str with query
         """
@@ -28,13 +35,13 @@ class Query:
             """
         return query
 
-    def delete_base(self, params: ReadParams) -> str:
+    def delete_base(self) -> str:
         """
         Method that returns events of the day
         """
         command = """
                     delete from dm_analysis.db_version where 
                     timedate::date = 
-                    '""" + params.get_date_from() + """'::date """
+                    '""" + self.params.get_date_from() + """'::date """
 
         return command
