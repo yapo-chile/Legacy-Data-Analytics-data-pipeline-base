@@ -38,7 +38,6 @@ class AppConfig:
         name: str = INI_DB.secret(name="dbname", default=environ.var())
         user: str = INI_DB.secret(name="user", default=environ.var())
         password: str = INI_DB.secret(name="password", default=environ.var())
-        table: str = environ.var("dm_analysis.db_version")
     athenaConf = environ.group(AthenaConfig)
     db = environ.group(DBConfig)
 
