@@ -1,14 +1,15 @@
 - defaultTab: nodes
   description: |-
+        <Add a description about what this ETL does>
         sudo docker run -v /home/bnbiuser/secrets/pulse_auth:/app/pulse-secret \
                         -v /home/bnbiuser/secrets/dw_db:/app/db-secret \
                         -e APP_PULSE_SECRET=/app/pulse-secret \
                         -e APP_DB_SECRET=/app/db-secret \
                         containers.mpi-internal.com/yapo/data-base-pipeline:latest
   executionEnabled: true
-  group: DOCKER/PULSE
+  group: DOCKER/<FOLDER RUNDECK LOCATION>
   loglevel: DEBUG
-  name: Pulse - Project Name Template
+  name: <FOLDER RUNDECK LOCATION> - Project Name Template
   nodeFilterEditable: false
   nodefilters:
     dispatch:
@@ -46,6 +47,7 @@
   sequence:
     commands:
     - script: |-
+        sudo docker pull containers.mpi-internal.com/yapo/data-base-pipeline:latest
         sudo docker run -v /home/bnbiuser/secrets/pulse_auth:/app/pulse-secret \
                         -v /home/bnbiuser/secrets/dw_db:/app/db-secret \
                         -e APP_PULSE_SECRET=/app/pulse-secret \
