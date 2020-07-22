@@ -13,7 +13,6 @@ Introduce here information about the purpose of this ETL, what kind of informati
 | Input Source      | Specify type of source and/or table names                                  |
 | Output Source     | Specify type of source and/or table names                                  |
 | Schedule          | hh:mm                                                                      |
-| Github Repository | Link to the folder in github that will contain the sources of the pipeline |
 | Rundeck Access    | Specify rundeck environment (test/data jobs) and rundeck ETL name          |
 | Associated Report | Specify name and URL of tableau report (if applies)                        |
 
