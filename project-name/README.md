@@ -1,6 +1,22 @@
 # Base pipeline 
 
-This micro services is base micro services. 
+# data-pipeline-base
+
+## Description
+
+Introduce here information about the purpose of this ETL, what kind of information it extracts and from where (dwh, pulse, blocket DB, service DB, specifics files, etc) and also specify other important tecnical details such as: execution preconditions, considerations about execution schedule.
+
+## Pipeline Implementation Details
+
+|   Field           | Description                                                                |
+|-------------------|----------------------------------------------------------------------------|
+| Input Source      | Specify type of source and/or table names                                  |
+| Output Source     | Specify type of source and/or table names                                  |
+| Schedule          | hh:mm                                                                      |
+| Github Repository | Link to the folder in github that will contain the sources of the pipeline |
+| Rundeck Access    | Specify rundeck environment (test/data jobs) and rundeck ETL name          |
+| Associated Report | Specify name and URL of tableau report (if applies)                        |
+
 
 ### Build
 ```
