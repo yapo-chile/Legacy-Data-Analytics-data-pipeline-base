@@ -1,7 +1,10 @@
+import csv
 import logging
+from io import StringIO
 import psycopg2
 import psycopg2.extras
 import pandas as pd
+from sqlalchemy import create_engine
 
 
 class Database:
@@ -66,27 +69,6 @@ class Database:
         cursor.close()
         return pd_result
 
-    def insert_data(self, data_dict: pd.DataFrame) -> None:
-        self.log.info('INSERT INTO %s', self.conf.table)
-        page_size: int = 10000
-        with self.connection.cursor() as cursor:
-            psycopg2.extras \
-                .execute_values(cursor,
-                                """ INSERT INTO """ + self.conf.table +
-                                """ ( timedate,
-                                      current_version
-                                    )
-                                    VALUES %s; """, ((
-                                        row.timedate,
-                                        row.current_version
-                                    ) for row in data_dict.itertuples()),
-                                page_size=page_size)
-            self.log.info('INSERT %s COMMIT.', self.conf.table)
-            self.connection.commit()
-            self.log.info('CLOSE CURSOR %s', self.conf.table)
-            cursor.close()
-
-
     def close_connection(self):
         """
         Method that close connection to postgresql database.
@@ -95,3 +77,41 @@ class Database:
                       self.conf.host,
                       self.conf.name)
         self.connection.close()
+
+    def get_sqlalchemy_conn(self):
+        return create_engine(
+            "postgresql://{}:{}@{}:{}/{}".format(
+                self.conf.user,
+                self.conf.password,
+                self.conf.host,
+                self.conf.port,
+                self.conf.name
+            )
+        )
+
+    def insert_copy(self, schema, table, df, index=False):
+        def psql_insert_copy(table, conn, keys, data_iter):
+            db_conn = conn.connection
+            with db_conn.cursor() as cur:
+                s_buf = StringIO()
+                writer = csv.writer(s_buf)
+                writer.writerows(data_iter)
+                s_buf.seek(0)
+                columns = ', '.join('"{}"'.format(k) for k in keys)
+                if table.schema:
+                    table_name = '{}.{}'.format(table.schema, table.name)
+                else:
+                    table_name = table.name
+
+                sql = 'COPY {} ({}) FROM STDIN WITH CSV'.format(
+                    table_name, columns)
+                cur.copy_expert(sql=sql, file=s_buf)
+                # close conn is called automatically, no needed to code
+
+        df.to_sql("{}.{}".format(schema, table),
+                  self.get_sqlalchemy_conn(),
+                  index=index,
+                  if_exists='append',  # Do not remove this,
+                  # otherwise it would be failing or truncating the whole table
+                  method=psql_insert_copy
+                  )
