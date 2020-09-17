@@ -1,6 +1,6 @@
 - defaultTab: nodes
   description: |-
-        <Add a description about what this ETL does>
+        <Add name of repository and folder where is the pipeline>
         sudo docker run --rm --net=host \
                         -v /home/bnbiuser/secrets/pulse_auth:/app/pulse-secret \
                         -v /home/bnbiuser/secrets/dw_db:/app/db-secret \
