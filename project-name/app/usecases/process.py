@@ -1,7 +1,5 @@
 # pylint: disable=no-member
 # utf-8
-import sys
-import logging
 from infraestructure.athena import Athena
 from infraestructure.psql import Database
 from utils.query import Query
@@ -17,8 +15,8 @@ class Process():
 
     # Write data to data warehouse
     def save(self) -> None:
-        query = Query(config, params)
-        db = Database(conf=config.db)
+        query = Query(self.config, self.params)
+        db = Database(conf=self.config.db)
         db.execute_command(query.delete_base())
         db.insert_data(self.data_athena)
         db.insert_data(self.data_dwh)
@@ -33,7 +31,7 @@ class Process():
     def data_dwh(self, config):
         query = Query(config, self.params)
         db_source = Database(conf=config)
-        data_dwh = db_source.select_to_dict(query \
+        data_dwh = db_source.select_to_dict(query\
                                             .query_base_postgresql())
         db_source.close_connection()
         self.__data_dwh = data_dwh
@@ -42,8 +40,8 @@ class Process():
     @property
     def data_athena(self):
         return self.__data_athena
-    
-    @data_pulse.setter
+
+    @data_athena.setter
     def data_athena(self, config):
         athena = Athena(conf=config)
         query = Query(config, self.params)
@@ -53,5 +51,5 @@ class Process():
 
     def generate(self):
         self.data_dwh = self.config.db
-        self.data_pulse = self.config.athenaConf
+        self.data_athena = self.config.athenaConf
         self.save()

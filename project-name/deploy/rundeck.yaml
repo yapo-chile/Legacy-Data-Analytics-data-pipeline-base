@@ -1,11 +1,17 @@
 - defaultTab: nodes
   description: |-
-        <Add a description about what this ETL does>
-        sudo docker run -v /home/bnbiuser/secrets/pulse_auth:/app/pulse-secret \
-                        -v /home/bnbiuser/secrets/dw_db:/app/db-secret \
-                        -e APP_PULSE_SECRET=/app/pulse-secret \
-                        -e APP_DB_SECRET=/app/db-secret \
-                        containers.mpi-internal.com/yapo/data-base-pipeline:latest
+        <Add specific URL or path of the pipeline in github>
+        sudo docker run --rm --net=host \
+                    -v /home/bnbiuser/secrets/pulse_auth:/app/pulse-secret \
+                    -v /home/bnbiuser/secrets/dw_db:/app/db-secret \
+                    -v /home/bnbiuser/secrets/smtp:/app/smtp-secret \
+                    -e APP_PULSE_SECRET=/app/pulse-secret \
+                    -e APP_DB_SECRET=/app/db-secret \
+                    -e APP_SMTP_SECRET=/app/smtp-secret \
+                    containers.mpi-internal.com/yapo/data-base-pipeline:latest \
+                    -email_from="noreply@yapo.cl -- if put this options replace default email from" \
+                    -email_to="email 1 to send data -- if put this options replace default emails to" \
+                    -email_to="email n to send data"
   executionEnabled: true
   group: DOCKER/<FOLDER RUNDECK LOCATION>
   loglevel: DEBUG
@@ -48,11 +54,16 @@
     commands:
     - script: |-
         sudo docker pull containers.mpi-internal.com/yapo/data-base-pipeline:latest
-        sudo docker run -v /home/bnbiuser/secrets/pulse_auth:/app/pulse-secret \
+        sudo docker run --rm --net=host \
+                        -v /home/bnbiuser/secrets/pulse_auth:/app/pulse-secret \
                         -v /home/bnbiuser/secrets/dw_db:/app/db-secret \
+                        -v /home/bnbiuser/secrets/smtp:/app/smtp-secret \
                         -e APP_PULSE_SECRET=/app/pulse-secret \
                         -e APP_DB_SECRET=/app/db-secret \
-                        containers.mpi-internal.com/yapo/data-base-pipeline:latest
+                        -e APP_SMTP_SECRET=/app/smtp-secret \
+                        containers.mpi-internal.com/yapo/data-base-pipeline:latest \
+                        -email_from="noreply@yapo.cl" \
+                        -email_to="data_team@adevinta.com"
     keepgoing: false
     strategy: node-first
   timeZone: America/Santiago
