@@ -4,7 +4,7 @@ import logging
 from infraestructure.conf import getConf
 from utils.read_params import ReadParams
 from utils.time_execution import TimeExecution
-from usescases.process import Process
+from usecases.process import Process
 
 
 if __name__ == '__main__':
